@@ -1,0 +1,70 @@
+name: Run evaluation on Leviathan
+
+on:
+  # TODO(@gussmith23): when we re-enable, we need to make sure it doesn't clash
+  # with Lakeroad's evaluation's nightly run.
+  # schedule:
+  #   # 1am PT.
+  #   - cron: '0 8 * * *'
+  workflow_dispatch:
+
+env:
+  # Number of jobs when building something with make. This is a separate task
+  # from the above as each job generally uses one thread.
+  MAKE_JOBS: 128
+  # Number of parallel doit tasks.
+  NUM_DOIT_TASKS: 128
+
+jobs:
+
+  # TODO(@gussmith23) It would be nice if this wasn't necessary
+  cleaner:
+    runs-on: [self-hosted, leviathan]
+    steps:
+      - name: Clean up previous runs
+        run: rm -rf "${{ github.workspace }}"
+
+  build-docker-image:
+    # Make sure we clean first.
+    needs: cleaner
+    runs-on: [self-hosted, leviathan]
+
+    outputs:
+      tag: ${{ steps.generate-tag.outputs.tag }}
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Generate Docker image tag
+      id: generate-tag
+      run: |
+        export TAG=churchroad-evaluation:$(date +%s)
+        echo "Docker image tag: $TAG"
+        echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+    - name: Build Docker image
+      run: |
+        docker build \
+          . \
+          --file Dockerfile \
+          --tag ${{ steps.generate-tag.outputs.tag }} \
+          --build-arg MAKE_JOBS=${{ env.MAKE_JOBS }}
+
+  run-evaluation:
+    needs: build-docker-image
+    runs-on: [self-hosted, leviathan]
+    outputs:
+      container-name: ${{ steps.run-evaluation.outputs.container-name }}
+    steps:
+    - id: run-evaluation
+      run: |
+        CONTAINER_NAME=churchroad-evaluation-run-$(date +%s)
+        echo "Docker container name: $CONTAINER_NAME"
+        echo "container-name=$CONTAINER_NAME" >> $GITHUB_OUTPUT
+        docker run \
+          --name $CONTAINER_NAME \
+          --env LOGLEVEL=INFO \
+          --env PRINT_UPTIME_INTERVAL=60 \
+          --env NUM_DOIT_TASKS=$NUM_DOIT_TASKS \
+          ${{ needs.build-docker-image.outputs.tag }} \
+          bash /root/run-evaluation.sh

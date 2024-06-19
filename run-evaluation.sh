@@ -1,14 +1,16 @@
 #!/bin/bash
 # Runs the evaluation.
+#
+# Environment variables:
+# - PRINT_UPTIME_INTERVAL: If set to a positive number, prints uptime every
+#   PRINT_UPTIME_INTERVAL seconds.
+# - NUM_DOIT_TASKS: Number of parallel tasks to run. Defaults to the number of
+#   processors on the machine.
 
 set -eo pipefail
 
 PRINT_UPTIME_INTERVAL="${PRINT_UPTIME_INTERVAL:-0}"
-
-if [[ -z "$NUM_DOIT_TASKS" ]]; then
-    echo "Must provide NUM_DOIT_TASKS in environment" 1>&2
-    exit 1
-fi
+NUM_DOIT_TASKS="${NUM_DOIT_TASKS:-$(nproc)}"
 
 # Optionally track uptime. Set PRINT_UPTIME_INTERVAL to a positive number to
 # enable.

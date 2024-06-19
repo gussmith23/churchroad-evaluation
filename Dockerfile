@@ -6,7 +6,9 @@ ARG MAKE_JOBS=2
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
   && apt-get install -y \
-  python3
+  locales \
+  python3 \
+  python3-pip
 
 # Set the locale. Necessary for Vivado.
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \

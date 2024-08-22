@@ -2,11 +2,13 @@
 
 import json
 import logging
+import os
 from pathlib import Path
 import re
 import subprocess
 from tempfile import NamedTemporaryFile
 from typing import Dict, Union
+import yaml
 
 
 def _parse_yosys_log(log_txt: str):
@@ -86,3 +88,72 @@ def collect(
     collected_data_filepath.parent.mkdir(parents=True, exist_ok=True)
     with open(collected_data_filepath, "w") as f:
         json.dump(data, f)
+
+
+CRE_OUTPUT_DIR_ENV_VAR = "CRE_OUTPUT_DIR"
+CRE_MANIFEST_PATH_ENV_VAR = "CRE_MANIFEST_PATH"
+CRE_ITERATIONS_ENV_VAR = "CRE_ITERATIONS"
+
+
+def churchroad_evaluation_dir() -> Path:
+    """Return the path to the Churchroad evaluation directory."""
+    return Path(__file__).parent.parent.resolve()
+
+
+def output_dir() -> Path:
+    """Get directory where output should go.
+
+    Note that this function loads the manifest, so calling it repeatedly will
+    impact performance. Consider just saving the output of this function.
+
+    Output directory is set (in order of precedence)
+    1. from the CRE_OUTPUT_DIR environment variable, if set;
+    2. from the manifest.
+    """
+
+    # Output directory is set by the CRE_OUTPUT_DIR environment variable, if
+    # it's set. Otherwise, get it from the manifest.
+    out = Path(
+        os.environ[CRE_OUTPUT_DIR_ENV_VAR]
+        if CRE_OUTPUT_DIR_ENV_VAR in os.environ
+        else get_manifest()["output_dir"]
+    )
+
+    # If the path is relative, we assume it's relative to the Churchroad
+    # evaluation directory.
+    if not out.is_absolute():
+        out = churchroad_evaluation_dir() / out
+
+    out = out.resolve()
+
+    return out
+
+
+def _manifest_path() -> Path:
+    """Get path to the manifest file.
+
+    You should not need to call this function directly. Instead, use
+    get_manifest().
+
+    Manifest file is set (in order of precedence):
+
+    1. from the CRE_MANIFEST_PATH environment variable, if set;
+    2. from a default value.
+    """
+    return (
+        Path(os.environ[CRE_MANIFEST_PATH_ENV_VAR])
+        if CRE_MANIFEST_PATH_ENV_VAR in os.environ
+        else churchroad_evaluation_dir() / "manifest.yml"
+    )
+
+
+def get_manifest() -> Dict:
+    manifest = yaml.safe_load(_manifest_path().read_text())
+
+    # Override values from environment variables. This section of the code
+    # allows us to override any manifest values using environment variables. Add
+    # lines like `manifest["key"] = os.environ["KEY"]` to add an override.
+    if CRE_ITERATIONS_ENV_VAR in os.environ:
+        manifest["iterations"] = int(os.environ[CRE_ITERATIONS_ENV_VAR])
+
+    return manifest

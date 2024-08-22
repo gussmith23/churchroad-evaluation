@@ -1,3 +1,5 @@
 .env
-.doit.db.d*
+.doit.*
 __pycache__/
+out/*
+vivado.*

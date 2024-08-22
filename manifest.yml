@@ -1,0 +1,22 @@
+# Evaluation manifest for the Churchroad evaluation.
+
+# Where the output files will be written to.
+output_dir: out
+
+benchmarks:
+    
+  - # Filepaths are assumed to be relative to project root.
+    filepath: benchmarks/mul_16_16_16.v
+    # TODO Colin: do we want to have custom directives/flags/etc for each
+    # benchmark?
+
+  # TODO Colin: add more benchmarks
+
+# TODO part number for the pynq board
+pynq_part_name: xc7k160tlffv676-2L
+# TODO yosys family for Pynq
+yosys_pynq_family: xc7
+
+# Number of attempts to use for Vivado. If Vivado crashes more than this number
+# of times, we will give up and throw an error.
+vivado_num_attempts: 3

@@ -18,7 +18,7 @@ benchmarks:
   # TODO Colin: add more benchmarks
 
 # TODO part number for the pynq board
-pynq_part_name: xc7k160tlffv676-2L
+vivado_pynq_part_name: xc7z020clg484-1
 # TODO yosys family for Pynq
 yosys_pynq_family: xc7
 

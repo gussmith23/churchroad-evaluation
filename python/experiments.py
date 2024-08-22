@@ -39,7 +39,7 @@ def task_compile_benchmarks():
                 output_dirpath=vivado_output_dirpath,
                 module_name=benchmark_name,
                 attempts=manifest["vivado_num_attempts"],
-                part_name=manifest["pynq_part_name"],
+                part_name=manifest["vivado_pynq_part_name"],
                 extra_summary_fields={"tool": "vivado", "name": benchmark_name},
             )
         )

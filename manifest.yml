@@ -3,12 +3,17 @@
 # Where the output files will be written to.
 output_dir: out
 
+
+# Relative to the output directory.
+output_csv_filepath: collected_data/results.csv
+
 benchmarks:
     
   - # Filepaths are assumed to be relative to project root.
     filepath: benchmarks/mul_16_16_16.v
     # TODO Colin: do we want to have custom directives/flags/etc for each
     # benchmark?
+  - filepath: benchmarks/mul_16_32_32.v
 
   # TODO Colin: add more benchmarks
 

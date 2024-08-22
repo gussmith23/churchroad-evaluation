@@ -1,4 +1,10 @@
+black==24.8.0
+click==8.1.7
 cloudpickle==3.0.0
 doit==0.36.0
 importlib_metadata==7.1.0
+mypy-extensions==1.0.0
+packaging==24.1
+pathspec==0.12.1
+platformdirs==4.2.2
 zipp==3.19.2

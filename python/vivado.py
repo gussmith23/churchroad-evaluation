@@ -12,7 +12,6 @@ from typing import Any, Dict, Optional, Tuple, Union
 from util import count_resources_in_verilog_src
 
 
-
 def xilinx_ultrascale_plus_vivado_synthesis(
     instr_src_file: Union[str, Path],
     synth_opt_place_route_output_filepath: Union[str, Path],
@@ -320,4 +319,3 @@ def make_xilinx_ultrascale_plus_vivado_synthesis_task_noopt(
             json_filepath,
         ],
     }
-

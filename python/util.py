@@ -34,6 +34,7 @@ def _parse_yosys_log(log_txt: str):
 
     return resources
 
+
 def count_resources_in_verilog_src(
     verilog_src: str, module_name: str
 ) -> Dict[str, int]:
@@ -54,7 +55,6 @@ def count_resources_in_verilog_src(
 
     # print(out)
     return _parse_yosys_log(out)
-
 
 
 def collect(

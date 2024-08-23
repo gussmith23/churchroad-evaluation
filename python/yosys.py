@@ -6,9 +6,9 @@ import sys
 from time import time
 from typing import Any, Dict, Optional, Tuple, Union
 
-from util import count_resources_in_verilog_src
+from . import util
 
-
+ 
 def yosys_synthesis(
     input_filepath: Union[str, Path],
     module_name: str,

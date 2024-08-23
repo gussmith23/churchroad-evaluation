@@ -2,10 +2,8 @@ import json
 import os
 from pathlib import Path
 from typing import List, Union
-import util
-import vivado
+from . import util, vivado, yosys
 import pandas
-import yosys
 
 
 def _collect_json_to_csv(

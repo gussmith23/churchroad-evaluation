@@ -48,7 +48,7 @@ def yosys_synthesis(
             raise e
 
     # Generate summary
-    summary = count_resources_in_verilog_src(output_filepath.read_text(), module_name)
+    summary = util.count_resources_in_verilog_src(output_filepath.read_text(), module_name)
 
     assert "time_s" not in summary
     summary["time_s"] = yosys_end_time - yosys_start_time

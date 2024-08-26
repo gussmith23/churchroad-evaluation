@@ -10,6 +10,7 @@ from pathlib import Path
 from time import time
 from typing import Any, Dict, Optional, Tuple, Union
 from . import util
+import yaml
 
 
 def xilinx_ultrascale_plus_vivado_synthesis(
@@ -21,6 +22,7 @@ def xilinx_ultrascale_plus_vivado_synthesis(
     summary_filepath: Union[str, Path],
     part_name: str,
     directive: str = "default",
+    flags: str = '',
     synth_design: bool = True,
     opt_design: bool = True,
     synth_design_rtl_flags: bool = False,
@@ -62,6 +64,7 @@ def xilinx_ultrascale_plus_vivado_synthesis(
     tcl_script_filepath.parent.mkdir(parents=True, exist_ok=True)
     xdc_filepath = tcl_script_filepath.with_suffix(".xdc")
 
+
     with open(xdc_filepath, "w") as f:
         if clock_info:
             clock_name, clock_period, (rising_edge, falling_edge) = clock_info
@@ -73,16 +76,19 @@ def xilinx_ultrascale_plus_vivado_synthesis(
             set_clock_command = "# No clock provided; not creating a clock."
         f.write(set_clock_command)
 
+
+
     # Generate and write the TCL script.
     with open(tcl_script_filepath, "w") as f:
         synth_design_command = (
-            f"synth_design -mode out_of_context -directive {directive}"
+            f"synth_design -mode out_of_context -directive {directive} {flags}"
             + (
                 " -rtl -rtl_skip_mlo -rtl_skip_ip -rtl_skip_constraints"
                 if synth_design_rtl_flags
                 else ""
             )
         )
+
 
         f.write(
             f"""
@@ -99,7 +105,7 @@ set_param general.maxThreads {max_threads}
 
 read_verilog -sv ${{sv_source_file}}
 set_property top ${{modname}} [current_fileset]
-{synth_design_command if synth_design else f"# {synth_design_command}"}
+{synth_design_command if synth_design else f"# {synth_design_command}"} 
 read_xdc -mode out_of_context {xdc_filepath}
 {"opt_design" if opt_design else "# opt_design"}
 place_design -directive {place_directive}
@@ -164,7 +170,7 @@ report_utilization
 
     completed_process.check_returncode()
 
-    summary = count_resources_in_verilog_src(
+    summary = util.count_resources_in_verilog_src(
         verilog_src=synth_opt_place_route_output_filepath.read_text(),
         module_name=module_name,
     )
@@ -187,6 +193,7 @@ def make_xilinx_ultrascale_plus_vivado_synthesis_task_opt(
     output_dirpath: Union[str, Path],
     module_name: str,
     part_name: str,
+    flags: str = '',
     clock_info: Optional[Tuple[str, float]] = None,
     name: Optional[str] = None,
     directive: Optional[str] = None,
@@ -205,6 +212,7 @@ def make_xilinx_ultrascale_plus_vivado_synthesis_task_opt(
     input_filepath = Path(input_filepath)
     output_dirpath = Path(output_dirpath)
 
+
     output_filepaths = {
         "synth_opt_place_route_output_filepath": output_dirpath / input_filepath.name,
         "log_filepath": output_dirpath / f"{input_filepath.stem}.log",
@@ -222,6 +230,7 @@ def make_xilinx_ultrascale_plus_vivado_synthesis_task_opt(
         "tcl_script_filepath": output_filepaths["tcl_script_filepath"],
         "opt_design": True,
         "synth_design": True,
+        "flags": flags,
         "summary_filepath": output_filepaths["summary_filepath"],
         "extra_summary_fields": extra_summary_fields,
         "part_name": part_name,
@@ -235,6 +244,9 @@ def make_xilinx_ultrascale_plus_vivado_synthesis_task_opt(
         synth_args["fail_if_constraints_not_met"] = fail_if_constraints_not_met
     if attempts is not None:
         synth_args["attempts"] = attempts
+    if len(flags) != 0:
+        synth_args["flags"] = flags
+
 
     task = {
         "actions": [
@@ -247,6 +259,7 @@ def make_xilinx_ultrascale_plus_vivado_synthesis_task_opt(
         "file_dep": [input_filepath],
         "targets": list(output_filepaths.values()),
     }
+
 
     if name is not None:
         task["name"] = name
@@ -266,6 +279,7 @@ def make_xilinx_ultrascale_plus_vivado_synthesis_task_noopt(
     input_filepath: Union[str, Path],
     output_dirpath: Union[str, Path],
     module_name: str,
+    flags: str = None,
     clock_info: Optional[Tuple[str, float]] = None,
     attempts: Optional[int] = None,
 ):
@@ -292,6 +306,7 @@ def make_xilinx_ultrascale_plus_vivado_synthesis_task_noopt(
         "directive": "RuntimeOptimized",
         "place_directive": "RuntimeOptimized",
         "route_directive": "RuntimeOptimized",
+        "flags": flags,
         "opt_design": False,
         "synth_design": True,
         "synth_design_rtl_flags": False,

@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import List, Union
 from . import util, vivado, yosys
 import pandas
+import numpy as np
 
 
 def _collect_json_to_csv(
@@ -27,6 +28,8 @@ def task_compile_benchmarks():
     for benchmark in manifest["benchmarks"]:
         filepath = util.churchroad_evaluation_dir() / benchmark["filepath"]
         benchmark_name = filepath.stem
+        benchmark_flags = benchmark.get('flags')
+        features = benchmark.get('features')
 
         # Vivado compilation.
         vivado_output_dirpath = util.output_dir() / benchmark_name / "vivado"
@@ -36,9 +39,16 @@ def task_compile_benchmarks():
                 input_filepath=filepath,
                 output_dirpath=vivado_output_dirpath,
                 module_name=benchmark_name,
+                flags=''.join([f"-{elem} "for elem in benchmark_flags]) if benchmark_flags else '',
                 attempts=manifest["vivado_num_attempts"],
                 part_name=manifest["vivado_pynq_part_name"],
-                extra_summary_fields={"tool": "vivado", "name": benchmark_name},
+                extra_summary_fields={"tool": "vivado", 
+                                      "name": benchmark_name, 
+                                      "a_bw_i": features.get('a_bw_i', np.nan),
+                                      "b_bw_i": features.get('b_bw_i', np.nan),
+                                      "c_bw_i": features.get('b_bw_i', np.nan),
+                                      "o_bw": features.get('o_bw', np.nan)
+                                      },
             )
         )
         yield task

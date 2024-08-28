@@ -239,7 +239,7 @@ def make_xilinx_ultrascale_plus_vivado_synthesis_task_opt(
         synth_args["fail_if_constraints_not_met"] = fail_if_constraints_not_met
     if attempts is not None:
         synth_args["attempts"] = attempts
-    if flags is not None:
+    if flags:
         synth_args["flags"] = flags
 
     task = {

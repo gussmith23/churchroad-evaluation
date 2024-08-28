@@ -4,8 +4,8 @@ from pathlib import Path
 from typing import List, Union
 import util
 import vivado
-import yosys
 import pandas
+import yosys
 import numpy as np
 
 

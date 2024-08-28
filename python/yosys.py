@@ -8,7 +8,7 @@ from typing import Any, Dict, Optional, Tuple, Union
 
 from util import count_resources_in_verilog_src
 
- 
+
 def yosys_synthesis(
     input_filepath: Union[str, Path],
     module_name: str,

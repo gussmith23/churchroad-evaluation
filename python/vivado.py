@@ -64,7 +64,6 @@ def xilinx_ultrascale_plus_vivado_synthesis(
     tcl_script_filepath.parent.mkdir(parents=True, exist_ok=True)
     xdc_filepath = tcl_script_filepath.with_suffix(".xdc")
 
-
     with open(xdc_filepath, "w") as f:
         if clock_info:
             clock_name, clock_period, (rising_edge, falling_edge) = clock_info
@@ -76,8 +75,6 @@ def xilinx_ultrascale_plus_vivado_synthesis(
             set_clock_command = "# No clock provided; not creating a clock."
         f.write(set_clock_command)
 
-
-
     # Generate and write the TCL script.
     with open(tcl_script_filepath, "w") as f:
         synth_design_command = (
@@ -88,7 +85,6 @@ def xilinx_ultrascale_plus_vivado_synthesis(
                 else ""
             )
         )
-
 
         f.write(
             f"""
@@ -212,7 +208,6 @@ def make_xilinx_ultrascale_plus_vivado_synthesis_task_opt(
     input_filepath = Path(input_filepath)
     output_dirpath = Path(output_dirpath)
 
-
     output_filepaths = {
         "synth_opt_place_route_output_filepath": output_dirpath / input_filepath.name,
         "log_filepath": output_dirpath / f"{input_filepath.stem}.log",
@@ -244,9 +239,8 @@ def make_xilinx_ultrascale_plus_vivado_synthesis_task_opt(
         synth_args["fail_if_constraints_not_met"] = fail_if_constraints_not_met
     if attempts is not None:
         synth_args["attempts"] = attempts
-    if len(flags) != 0:
+    if flags is not None:
         synth_args["flags"] = flags
-
 
     task = {
         "actions": [
@@ -259,7 +253,6 @@ def make_xilinx_ultrascale_plus_vivado_synthesis_task_opt(
         "file_dep": [input_filepath],
         "targets": list(output_filepaths.values()),
     }
-
 
     if name is not None:
         task["name"] = name

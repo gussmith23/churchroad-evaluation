@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from time import time
 from typing import Any, Dict, Optional, Tuple, Union
-from . import util
+from util import count_resources_in_verilog_src
 import yaml
 
 
@@ -105,7 +105,7 @@ set_param general.maxThreads {max_threads}
 
 read_verilog -sv ${{sv_source_file}}
 set_property top ${{modname}} [current_fileset]
-{synth_design_command if synth_design else f"# {synth_design_command}"} 
+{synth_design_command if synth_design else f"# {synth_design_command}"}
 read_xdc -mode out_of_context {xdc_filepath}
 {"opt_design" if opt_design else "# opt_design"}
 place_design -directive {place_directive}

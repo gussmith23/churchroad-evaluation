@@ -170,7 +170,7 @@ report_utilization
 
     completed_process.check_returncode()
 
-    summary = util.count_resources_in_verilog_src(
+    summary = count_resources_in_verilog_src(
         verilog_src=synth_opt_place_route_output_filepath.read_text(),
         module_name=module_name,
     )

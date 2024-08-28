@@ -55,6 +55,7 @@ def count_resources_in_verilog_src(
             check=True,
         ).stdout
 
+    # print(out)
     return _parse_yosys_log(out)
 
 

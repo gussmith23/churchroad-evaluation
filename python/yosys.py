@@ -6,7 +6,7 @@ import sys
 from time import time
 from typing import Any, Dict, Optional, Tuple, Union
 
-from . import util
+from util import count_resources_in_verilog_src
 
  
 def yosys_synthesis(
@@ -48,7 +48,7 @@ def yosys_synthesis(
             raise e
 
     # Generate summary
-    summary = util.count_resources_in_verilog_src(output_filepath.read_text(), module_name)
+    summary = count_resources_in_verilog_src(output_filepath.read_text(), module_name)
 
     assert "time_s" not in summary
     summary["time_s"] = yosys_end_time - yosys_start_time

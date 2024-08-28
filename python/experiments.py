@@ -2,7 +2,9 @@ import json
 import os
 from pathlib import Path
 from typing import List, Union
-from . import util, vivado, yosys
+import util
+import vivado
+import yosys
 import pandas
 import numpy as np
 

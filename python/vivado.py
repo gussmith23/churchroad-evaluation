@@ -10,7 +10,6 @@ from pathlib import Path
 from time import time
 from typing import Any, Dict, Optional, Tuple, Union
 from util import count_resources_in_verilog_src
-import yaml
 
 
 def xilinx_ultrascale_plus_vivado_synthesis(

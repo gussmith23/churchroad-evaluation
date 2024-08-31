@@ -9,10 +9,9 @@ output_csv_filepath: collected_data/results.csv
 
 benchmarks:
 
-  # Filepaths are assumed to be relative to project root.
-
   # 0-stage multiplies
   - benchmark:
+    # Filepaths are assumed to be relative to project root.
     filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_8_8_8_bit.sv
     flags: '-cascade_dsp force -resource_sharing on'
     features:

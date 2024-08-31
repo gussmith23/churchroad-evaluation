@@ -30,8 +30,11 @@ def task_compile_benchmarks():
     for benchmark in manifest["benchmarks"]:
         filepath = util.churchroad_evaluation_dir() / benchmark["filepath"]
         benchmark_name = filepath.stem
-        benchmark_flags = benchmark.get('flags')
-        features = benchmark.get('features')
+        _benchmark_flags = benchmark.get("flags") if benchmark["flags"] else ""
+        _features = benchmark.get("features") if benchmark["features"] else {}
+        _extra_summary_fields = {"tool": "vivado", "name": benchmark_name}
+        for feature in _features:
+            _extra_summary_fields[feature] = _features.get(feature)
 
         # Vivado compilation.
         vivado_output_dirpath = util.output_dir() / benchmark_name / "vivado"
@@ -41,16 +44,10 @@ def task_compile_benchmarks():
                 input_filepath=filepath,
                 output_dirpath=vivado_output_dirpath,
                 module_name=benchmark_name,
-                flags=''.join([f"-{elem} "for elem in benchmark_flags]) if benchmark_flags else '',
+                flags=_benchmark_flags,
                 attempts=manifest["vivado_num_attempts"],
                 part_name=manifest["vivado_pynq_part_name"],
-                extra_summary_fields={"tool": "vivado", 
-                                      "name": benchmark_name, 
-                                      "a_bw_i": features.get('a_bw_i', np.nan),
-                                      "b_bw_i": features.get('b_bw_i', np.nan),
-                                      "c_bw_i": features.get('b_bw_i', np.nan),
-                                      "o_bw": features.get('o_bw', np.nan)
-                                      },
+                extra_summary_fields=_extra_summary_fields,
             )
         )
         yield task

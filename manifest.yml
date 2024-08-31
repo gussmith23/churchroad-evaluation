@@ -14,9 +14,7 @@ benchmarks:
   # 0-stage multiplies
   - benchmark:
     filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_8_8_8_bit.sv
-    flags: 
-      # - 'cascade_dsp force'
-      # - 'resource_sharing on'
+    flags: '-cascade_dsp force -resource_sharing on'
     features:
       a_bw_i: 8
       b_bw_i: 8
@@ -26,9 +24,7 @@ benchmarks:
     filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_8_8_16_bit.sv
     flags: 
     features:
-      a_bw_i: 8
-      b_bw_i: 8
-      o_bw: 16
+
 
   - benchmark:
     filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_8_16_24_bit.sv

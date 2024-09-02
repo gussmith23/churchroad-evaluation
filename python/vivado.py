@@ -21,6 +21,7 @@ def xilinx_ultrascale_plus_vivado_synthesis(
     summary_filepath: Union[str, Path],
     part_name: str,
     directive: str = "default",
+    flags: str = "",
     synth_design: bool = True,
     opt_design: bool = True,
     synth_design_rtl_flags: bool = False,
@@ -76,7 +77,7 @@ def xilinx_ultrascale_plus_vivado_synthesis(
     # Generate and write the TCL script.
     with open(tcl_script_filepath, "w") as f:
         synth_design_command = (
-            f"synth_design -mode out_of_context -directive {directive}"
+            f"synth_design -mode out_of_context -directive {directive} {flags}"
             + (
                 " -rtl -rtl_skip_mlo -rtl_skip_ip -rtl_skip_constraints"
                 if synth_design_rtl_flags
@@ -187,6 +188,7 @@ def make_xilinx_ultrascale_plus_vivado_synthesis_task_opt(
     output_dirpath: Union[str, Path],
     module_name: str,
     part_name: str,
+    flags: str = "",
     clock_info: Optional[Tuple[str, float]] = None,
     name: Optional[str] = None,
     directive: Optional[str] = None,
@@ -222,6 +224,7 @@ def make_xilinx_ultrascale_plus_vivado_synthesis_task_opt(
         "tcl_script_filepath": output_filepaths["tcl_script_filepath"],
         "opt_design": True,
         "synth_design": True,
+        "flags": flags,
         "summary_filepath": output_filepaths["summary_filepath"],
         "extra_summary_fields": extra_summary_fields,
         "part_name": part_name,
@@ -235,6 +238,8 @@ def make_xilinx_ultrascale_plus_vivado_synthesis_task_opt(
         synth_args["fail_if_constraints_not_met"] = fail_if_constraints_not_met
     if attempts is not None:
         synth_args["attempts"] = attempts
+    if flags:
+        synth_args["flags"] = flags
 
     task = {
         "actions": [
@@ -266,6 +271,7 @@ def make_xilinx_ultrascale_plus_vivado_synthesis_task_noopt(
     input_filepath: Union[str, Path],
     output_dirpath: Union[str, Path],
     module_name: str,
+    flags: str = None,
     clock_info: Optional[Tuple[str, float]] = None,
     attempts: Optional[int] = None,
 ):
@@ -292,6 +298,7 @@ def make_xilinx_ultrascale_plus_vivado_synthesis_task_noopt(
         "directive": "RuntimeOptimized",
         "place_directive": "RuntimeOptimized",
         "route_directive": "RuntimeOptimized",
+        "flags": flags,
         "opt_design": False,
         "synth_design": True,
         "synth_design_rtl_flags": False,

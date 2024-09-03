@@ -33,7 +33,10 @@ def task_compile_benchmarks():
         benchmark_extra_summary_fields = {"tool": "vivado", "name": benchmark_name}
         benchmark_synth_options = ""
 
-        if "synth_options" in benchmark.keys() and benchmark["synth_options"] is not None:
+        if (
+            "synth_options" in benchmark.keys()
+            and benchmark["synth_options"] is not None
+        ):
             benchmark_synth_options = benchmark["synth_options"]
         if "features" in benchmark.keys() and benchmark["features"] is not None:
             benchmark_features = benchmark["features"]

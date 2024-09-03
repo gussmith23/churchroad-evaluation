@@ -13,7 +13,7 @@ benchmarks:
   - benchmark:
     # Filepaths are assumed to be relative to project root.
     filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_8_8_8_bit.sv
-    flags: '-cascade_dsp force -resource_sharing on'
+    synth_options: '-cascade_dsp force -resource_sharing on'
     features:
       a_bw_i: 8
       b_bw_i: 8
@@ -21,13 +21,13 @@ benchmarks:
 
   - benchmark:
     filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_8_8_16_bit.sv
-    flags: 
+    synth_options: 
     features:
 
 
   - benchmark:
     filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_8_16_24_bit.sv
-    flags: 
+    synth_options: 
     features:
       a_bw_i: 8
       b_bw_i: 16
@@ -35,7 +35,7 @@ benchmarks:
     
   - benchmark:
     filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_16_16_16_bit.sv
-    flags: 
+    synth_options: 
     features:
       a_bw_i: 16
       b_bw_i: 16
@@ -43,7 +43,7 @@ benchmarks:
 
   - benchmark:
     filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_16_32_32_bit.sv
-    flags: 
+    synth_options: 
     features:
       a_bw_i: 16
       b_bw_i: 32
@@ -51,7 +51,7 @@ benchmarks:
 
   - benchmark:
     filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_16_32_48_bit.sv
-    flags: 
+    synth_options: 
     features:
       a_bw_i: 16
       b_bw_i: 32
@@ -59,7 +59,7 @@ benchmarks:
 
   - benchmark:
     filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_18_18_18_bit.sv
-    flags: 
+    synth_options: 
     features:
       a_bw_i: 18
       b_bw_i: 18
@@ -67,7 +67,7 @@ benchmarks:
 
   - benchmark:
     filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_18_18_36_bit.sv
-    flags: 
+    synth_options: 
     features:
       a_bw_i: 18
       b_bw_i: 18
@@ -75,7 +75,7 @@ benchmarks:
 
   - benchmark:
     filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_18_25_43_bit.sv
-    flags: 
+    synth_options: 
     features:
       a_bw_i: 18
       b_bw_i: 25
@@ -83,7 +83,7 @@ benchmarks:
 
   - benchmark:
     filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_32_32_32_bit.sv
-    flags: 
+    synth_options: 
     features:
       a_bw_i: 32
       b_bw_i: 32
@@ -92,7 +92,7 @@ benchmarks:
     # Filepaths are assumed to be relative to project root.
   - benchmark:
     filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_32_32_64_bit.sv
-    flags: 
+    synth_options: 
     features:
       a_bw_i: 32
       b_bw_i: 32
@@ -100,7 +100,7 @@ benchmarks:
 
   - benchmark:
     filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_32_48_80_bit.sv
-    flags: 
+    synth_options: 
     features:
       a_bw_i: 32
       b_bw_i: 48
@@ -108,7 +108,7 @@ benchmarks:
 
   - benchmark:
     filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_32_64_96_bit.sv
-    flags: 
+    synth_options: 
     features:
       a_bw_i: 32
       b_bw_i: 64
@@ -116,7 +116,7 @@ benchmarks:
 
   - benchmark:
     filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_64_64_64_bit.sv
-    flags: 
+    synth_options: 
     features:
       a_bw_i: 64
       b_bw_i: 64
@@ -124,7 +124,7 @@ benchmarks:
 
   - benchmark:
     filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_64_64_128_bit.sv
-    flags: 
+    synth_options: 
     features:
       a_bw_i: 64
       b_bw_i: 64
@@ -132,7 +132,7 @@ benchmarks:
 
   - benchmark:
     filepath: benchmarks/mul/1_stage/mul_1_stage_unsigned_8_16_24_bit.sv
-    flags: 
+    synth_options: 
     features:
       a_bw_i: 8
       b_bw_i: 16
@@ -140,7 +140,7 @@ benchmarks:
 
   - benchmark:
     filepath: benchmarks/mul/2_stage/mul_2_stage_unsigned_8_16_24_bit.sv
-    flags: 
+    synth_options: 
     features:
       a_bw_i: 8
       b_bw_i: 16
@@ -148,7 +148,7 @@ benchmarks:
     
   - benchmark:
     filepath: benchmarks/mul/3_stage/mul_3_stage_unsigned_8_16_24_bit.sv
-    flags: 
+    synth_options: 
     features:
       a_bw_i: 8
       b_bw_i: 16
@@ -156,7 +156,7 @@ benchmarks:
 
   - benchmark:
     filepath: benchmarks/muladd/muladd_unsigned_0stage_16_16_32_32.v 
-    flags: 
+    synth_options: 
       # - 'cascade_dsp force'
     features:
       a_bw_i: 16
@@ -168,7 +168,7 @@ benchmarks:
   # Tests below vary from 0 to 3 pipeline stages
   - benchmark:
     filepath: benchmarks/muladd/muladd_0_stage_signed_8_8_8_8_bit.sv
-    flags:
+    synth_options:
     features:
       a_bw_i: 8
       b_bw_i: 8
@@ -177,7 +177,7 @@ benchmarks:
 
   - benchmark:
     filepath: benchmarks/muladd/muladd_1_stage_signed_8_8_8_8_bit.sv
-    flags:
+    synth_options:
     features:
       a_bw_i: 8
       b_bw_i: 8
@@ -186,7 +186,7 @@ benchmarks:
 
   - benchmark:
     filepath: benchmarks/muladd/muladd_2_stage_signed_8_8_8_8_bit.sv
-    flags:
+    synth_options:
     features:
       a_bw_i: 8
       b_bw_i: 8
@@ -195,7 +195,7 @@ benchmarks:
 
   - benchmark:
     filepath: benchmarks/muladd/muladd_0_stage_signed_32_32_32_32_bit.sv
-    flags:
+    synth_options:
     features:
       a_bw_i: 32
       b_bw_i: 32
@@ -204,7 +204,7 @@ benchmarks:
 
   - benchmark:
     filepath: benchmarks/mac/mac_0_stage_unsigned_8_8_16_bit.sv
-    flags:
+    synth_options:
     features:
       a_bw_i: 8
       b_bw_i: 8
@@ -212,7 +212,7 @@ benchmarks:
 
   - benchmark:
     filepath: benchmarks/mac/mac_0_stage_unsigned_16_16_32_bit.sv
-    flags:
+    synth_options:
     features:
       a_bw_i: 16
       b_bw_i: 16
@@ -221,7 +221,7 @@ benchmarks:
 
   - benchmark:
     filepath: benchmarks/mac/mac_0_stage_unsigned_32_32_64_bit.sv
-    flags:
+    synth_options:
     features:
       a_bw_i: 32
       b_bw_i: 32
@@ -229,7 +229,7 @@ benchmarks:
 
   - benchmark:
     filepath: benchmarks/mac/mac_0_stage_unsigned_64_64_128_bit.sv
-    flags:
+    synth_options:
     features:
       a_bw_i: 64
       b_bw_i: 64

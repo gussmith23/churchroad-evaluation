@@ -25,3 +25,6 @@ yosys_pynq_family: xc7
 # Number of attempts to use for Vivado. If Vivado crashes more than this number
 # of times, we will give up and throw an error.
 vivado_num_attempts: 3
+
+# Timeout for multiplication verification, in seconds.
+mul_verify_experiment_timeout: 10

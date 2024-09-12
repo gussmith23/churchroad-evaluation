@@ -8,14 +8,232 @@ output_dir: out
 output_csv_filepath: collected_data/results.csv
 
 benchmarks:
-    
-  - # Filepaths are assumed to be relative to project root.
-    filepath: benchmarks/mul_16_16_16.v
-    # TODO Colin: do we want to have custom directives/flags/etc for each
-    # benchmark?
-  - filepath: benchmarks/mul_16_32_32.v
 
-  # TODO Colin: add more benchmarks
+  # 0-stage multiplies
+  - benchmark:
+    # Filepaths are assumed to be relative to project root.
+    filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_8_8_8_bit.sv
+    synth_options: '-cascade_dsp force -resource_sharing on'
+    features:
+      a_bw_i: 8
+      b_bw_i: 8
+      o_bw: 8
+
+  - benchmark:
+    filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_8_8_16_bit.sv
+    synth_options: 
+    features:
+
+
+  - benchmark:
+    filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_8_16_24_bit.sv
+    synth_options: 
+    features:
+      a_bw_i: 8
+      b_bw_i: 16
+      o_bw: 24
+    
+  - benchmark:
+    filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_16_16_16_bit.sv
+    synth_options: 
+    features:
+      a_bw_i: 16
+      b_bw_i: 16
+      o_bw: 16
+
+  - benchmark:
+    filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_16_32_32_bit.sv
+    synth_options: 
+    features:
+      a_bw_i: 16
+      b_bw_i: 32
+      o_bw: 32
+
+  - benchmark:
+    filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_16_32_48_bit.sv
+    synth_options: 
+    features:
+      a_bw_i: 16
+      b_bw_i: 32
+      o_bw: 48
+
+  - benchmark:
+    filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_18_18_18_bit.sv
+    synth_options: 
+    features:
+      a_bw_i: 18
+      b_bw_i: 18
+      o_bw: 18
+
+  - benchmark:
+    filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_18_18_36_bit.sv
+    synth_options: 
+    features:
+      a_bw_i: 18
+      b_bw_i: 18
+      o_bw: 36
+
+  - benchmark:
+    filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_18_25_43_bit.sv
+    synth_options: 
+    features:
+      a_bw_i: 18
+      b_bw_i: 25
+      o_bw: 43
+
+  - benchmark:
+    filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_32_32_32_bit.sv
+    synth_options: 
+    features:
+      a_bw_i: 32
+      b_bw_i: 32
+      o_bw: 32
+    
+    # Filepaths are assumed to be relative to project root.
+  - benchmark:
+    filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_32_32_64_bit.sv
+    synth_options: 
+    features:
+      a_bw_i: 32
+      b_bw_i: 32
+      o_bw: 64
+
+  - benchmark:
+    filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_32_48_80_bit.sv
+    synth_options: 
+    features:
+      a_bw_i: 32
+      b_bw_i: 48
+      o_bw: 80
+
+  - benchmark:
+    filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_32_64_96_bit.sv
+    synth_options: 
+    features:
+      a_bw_i: 32
+      b_bw_i: 64
+      o_bw: 96
+
+  - benchmark:
+    filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_64_64_64_bit.sv
+    synth_options: 
+    features:
+      a_bw_i: 64
+      b_bw_i: 64
+      o_bw: 64
+
+  - benchmark:
+    filepath: benchmarks/mul/0_stage/mul_0_stage_unsigned_64_64_128_bit.sv
+    synth_options: 
+    features:
+      a_bw_i: 64
+      b_bw_i: 64
+      o_bw: 128
+
+  - benchmark:
+    filepath: benchmarks/mul/1_stage/mul_1_stage_unsigned_8_16_24_bit.sv
+    synth_options: 
+    features:
+      a_bw_i: 8
+      b_bw_i: 16
+      o_bw: 24
+
+  - benchmark:
+    filepath: benchmarks/mul/2_stage/mul_2_stage_unsigned_8_16_24_bit.sv
+    synth_options: 
+    features:
+      a_bw_i: 8
+      b_bw_i: 16
+      o_bw: 24
+    
+  - benchmark:
+    filepath: benchmarks/mul/3_stage/mul_3_stage_unsigned_8_16_24_bit.sv
+    synth_options: 
+    features:
+      a_bw_i: 8
+      b_bw_i: 16
+      o_bw: 24
+
+  - benchmark:
+    filepath: benchmarks/muladd/muladd_unsigned_0stage_16_16_32_32.v 
+    synth_options: 
+      # - 'cascade_dsp force'
+    features:
+      a_bw_i: 16
+      b_bw_i: 16
+      c_bw_i: 32
+      o_bw: 32
+
+  # Multiply-add, 8-bit, signed
+  # Tests below vary from 0 to 3 pipeline stages
+  - benchmark:
+    filepath: benchmarks/muladd/muladd_0_stage_signed_8_8_8_8_bit.sv
+    synth_options:
+    features:
+      a_bw_i: 8
+      b_bw_i: 8
+      c_bw_i: 8
+      o_bw: 8
+
+  - benchmark:
+    filepath: benchmarks/muladd/muladd_1_stage_signed_8_8_8_8_bit.sv
+    synth_options:
+    features:
+      a_bw_i: 8
+      b_bw_i: 8
+      c_bw_i: 8
+      o_bw: 8
+
+  - benchmark:
+    filepath: benchmarks/muladd/muladd_2_stage_signed_8_8_8_8_bit.sv
+    synth_options:
+    features:
+      a_bw_i: 8
+      b_bw_i: 8
+      c_bw_i: 8
+      o_bw: 8
+
+  - benchmark:
+    filepath: benchmarks/muladd/muladd_0_stage_signed_32_32_32_32_bit.sv
+    synth_options:
+    features:
+      a_bw_i: 32
+      b_bw_i: 32
+      c_bw_i: 32
+      o_bw: 32
+
+  - benchmark:
+    filepath: benchmarks/mac/mac_0_stage_unsigned_8_8_16_bit.sv
+    synth_options:
+    features:
+      a_bw_i: 8
+      b_bw_i: 8
+      o_bw: 8
+
+  - benchmark:
+    filepath: benchmarks/mac/mac_0_stage_unsigned_16_16_32_bit.sv
+    synth_options:
+    features:
+      a_bw_i: 16
+      b_bw_i: 16
+      c_bw_i: 16
+      o_bw: 16
+
+  - benchmark:
+    filepath: benchmarks/mac/mac_0_stage_unsigned_32_32_64_bit.sv
+    synth_options:
+    features:
+      a_bw_i: 32
+      b_bw_i: 32
+      o_bw: 32
+
+  - benchmark:
+    filepath: benchmarks/mac/mac_0_stage_unsigned_64_64_128_bit.sv
+    synth_options:
+    features:
+      a_bw_i: 64
+      b_bw_i: 64
+      o_bw: 64
 
 # TODO part number for the pynq board
 vivado_pynq_part_name: xc7z020clg484-1

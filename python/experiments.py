@@ -6,6 +6,7 @@ import util
 import vivado
 import pandas
 import yosys
+import numpy as np
 
 
 def _collect_json_to_csv(
@@ -29,6 +30,18 @@ def task_compile_benchmarks():
     for benchmark in manifest["benchmarks"]:
         filepath = util.churchroad_evaluation_dir() / benchmark["filepath"]
         benchmark_name = filepath.stem
+        benchmark_extra_summary_fields = {"tool": "vivado", "name": benchmark_name}
+        benchmark_synth_options = ""
+
+        if (
+            "synth_options" in benchmark.keys()
+            and benchmark["synth_options"] is not None
+        ):
+            benchmark_synth_options = benchmark["synth_options"]
+        if "features" in benchmark.keys() and benchmark["features"] is not None:
+            benchmark_features = benchmark["features"]
+            for feature in benchmark_features:
+                benchmark_extra_summary_fields[feature] = benchmark_features[feature]
 
         # Vivado compilation.
         vivado_output_dirpath = util.output_dir() / benchmark_name / "vivado"
@@ -38,9 +51,10 @@ def task_compile_benchmarks():
                 input_filepath=filepath,
                 output_dirpath=vivado_output_dirpath,
                 module_name=benchmark_name,
+                synth_options=benchmark_synth_options,
                 attempts=manifest["vivado_num_attempts"],
                 part_name=manifest["vivado_pynq_part_name"],
-                extra_summary_fields={"tool": "vivado", "name": benchmark_name},
+                extra_summary_fields=benchmark_extra_summary_fields,
             )
         )
         yield task

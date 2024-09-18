@@ -53,9 +53,13 @@ def _impl_mul_verify_timeout_experiment():
             )
             start = time()
             try:
-                p.communicate(timeout=timeout)
+                stdout, stderr = p.communicate(timeout=timeout)
                 runtime = time() - start
                 timed_out = False
+                if p.returncode != 0:
+                    print(f"{solver}, {bw}-bit -> {stderr} \n")
+                else:
+                    print(f"{solver}, {bw}-bit -> {stdout}")
             except subprocess.TimeoutExpired:
                 runtime = time() - start
                 p.terminate()
@@ -70,7 +74,6 @@ def _impl_mul_verify_timeout_experiment():
 
     output_path = util.output_dir() / "figures" / "mul_verify_timeout_experiment.png"
     output_path.parent.mkdir(parents=True, exist_ok=True)
-
 
     fig = px.bar(df, 
                  x='bitwidth', 
@@ -90,4 +93,5 @@ def task_mul_verify_timeout_experiment():
     return {
         "actions": [_impl_mul_verify_timeout_experiment],
         "targets": [util.output_dir() / "figures" / "mul_verify_timeout_experiment.png"],
+        'verbosity': 2
     }

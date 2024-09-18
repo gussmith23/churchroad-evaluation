@@ -19,7 +19,12 @@ def _impl_mul_verify_timeout_experiment():
     for solver in solvers:
         for bw in [2, 4, 6, 8, 10, 12, 14, 16]:
             source = f"""#lang rosette
-    (current-solver {solver})
+    (require rosette/solver/smt/z3)
+    (require rosette/solver/smt/bitwuzla)
+    (require rosette/solver/smt/cvc5)
+    (require rosette/solver/smt/yices)
+    (require rosette/solver/smt/stp)
+    (current-solver ({solver}))
     (define bw {bw}) ; Larger bitwidths begin to time out!
     (define-symbolic a1 a0 b1 b0 (bitvector (/ bw 2)))
     (define a (concat a1 a0))
@@ -65,6 +70,7 @@ def _impl_mul_verify_timeout_experiment():
 
     output_path = util.output_dir() / "figures" / "mul_verify_timeout_experiment.png"
     output_path.parent.mkdir(parents=True, exist_ok=True)
+
 
     fig = px.bar(df, 
                  x='bitwidth', 

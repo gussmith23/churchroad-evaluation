@@ -6,23 +6,27 @@ ARG MAKE_JOBS=2
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
   && apt-get install -y \
-  locales \
-  python3 \
-  python3-pip
+  build-essential \
+  curl \
+  git
+RUN apt-get install -y --no-install-recommends make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+RUN apt-get install -y mecab-ipadic-utf8
 
-# Set the locale. Necessary for Vivado.
-RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
-  locale-gen
-ENV LANG=en_US.UTF-8  
-ENV LANGUAGE=en_US:en  
-ENV LC_ALL=en_US.UTF-8     
+
 
 # Set up Python.
 WORKDIR /root
+RUN git clone --depth=1 https://github.com/pyenv/pyenv.git .pyenv
+ENV PYENV_ROOT="/root/.pyenv"
+ENV PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
+WORKDIR /root/lakeroad-evaluation
+ADD .python-version .python-version
+RUN pyenv install $(cat .python-version) && \
+  pyenv global $(cat .python-version)
 ADD requirements.txt requirements.txt
 RUN pip3 install --requirement requirements.txt 
 
-WORKDIR /root
+WORKDIR /root/lakeroad-evaluation
 ADD run-evaluation.sh run-evaluation.sh
 ADD dodo.py dodo.py
 CMD [ "./run-evaluation.sh" ]

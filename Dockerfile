@@ -29,4 +29,10 @@ RUN pip3 install --requirement requirements.txt
 WORKDIR /root/lakeroad-evaluation
 ADD run-evaluation.sh run-evaluation.sh
 ADD dodo.py dodo.py
+ADD python/ python/
+ADD benchmarks/ benchmarks/
+ADD manifest.yml manifest.yml
+# TODO this isn't right. Should really just package the Python code and install
+# it rather than hacking the PYTHONPATH; this hack isn't even right.
+ENV PYTHONPATH="/root/lakeroad-evaluation/python:$PYTHONPATH"
 CMD [ "./run-evaluation.sh" ]

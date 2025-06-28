@@ -71,5 +71,7 @@ def _impl_mul_verify_timeout_experiment():
 def task_mul_verify_timeout_experiment():
     return {
         "actions": [_impl_mul_verify_timeout_experiment],
-        "targets": [util.output_dir() / "figures" / "mul_verify_timeout_experiment.png"],
+        "targets": [
+            util.output_dir() / "figures" / "mul_verify_timeout_experiment.png"
+        ],
     }

@@ -1,2 +1,2 @@
-from experiments import *
-from mul_verify_timeout_experiment import *
+from churchroad_evaluation.experiments import *
+from churchroad_evaluation.mul_verify_timeout_experiment import *

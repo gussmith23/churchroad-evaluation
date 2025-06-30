@@ -1,0 +1,86 @@
+# This example pyproject.toml is for a basic pip+setuptools setup.
+# If you use a project management tool (like Poetry), then
+# those tools will have slightly different configurations or additions.
+
+# I highly recommend using a project management tool for your project.
+# Project management is a highly opinionated subject.
+# There are a lot of good, robust tools in this space now (as of 2023)
+# Two that I've used and recommend are Poetry and PDM.
+# Poetry is more mature, PDM is recent, both work well.
+# - Poetry: https://python-poetry.org/
+# - PDM: https://pdm.fming.dev/latest/
+
+# Resources
+#
+# - https://packaging.python.org/en/latest/tutorials/packaging-projects/
+# - https://betterprogramming.pub/a-pyproject-toml-developers-cheat-sheet-5782801fb3ed
+#
+# Examples of pyproject.toml files from open-source projects:
+# - https://github.com/carlosperate/awesome-pyproject
+# - https://github.com/SpikeInterface/spikeinterface/blob/master/pyproject.toml
+# - https://github.com/codespell-project/codespell/blob/master/pyproject.toml
+# - https://github.com/hynek/structlog/blob/main/pyproject.toml
+
+
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=61.0", "wheel>=0.37.1"]
+
+
+[project]
+# https://packaging.python.org/en/latest/specifications/declaring-project-metadata/
+name = "churchroad-evaluation"
+version = "0.0.1"
+description = "Evaluation of the Churchroad synthesis tool"
+readme = "README.md"
+requires-python = ">=3.9,<4.0"
+# "LICENSE" is name of the license file, which must be in root of project folder
+license = {file = "LICENSE"}
+authors = [
+    {name = "Gus Smith", email = "gushenrysmith@gmail.com"},
+]
+keywords = ["evaluation", "research"]
+# Lets us read dependencies from requirements.txt
+dynamic = ["dependencies"]
+
+
+# https://pypi.org/classifiers/
+# Add PyPI classifiers here
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: Implementation :: CPython",
+]
+
+# Required dependencies for install/usage of your package or application
+# If you don't have any dependencies, leave this section empty
+# Format for dependency strings: https://peps.python.org/pep-0508/
+#dependencies = [
+#]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+
+
+[tool.setuptools]
+# https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+platforms = ["Linux"]
+include-package-data = true
+zip-safe = true  # This just means it's safe to zip up the bdist
+
+# Python modules and packages that are included in the
+# distribution package (and therefore become importable)
+[tool.setuptools.packages.find]
+where = ["src"]  # list of folders that contain the packages (["."] by default)
+include = ["churchroad_evaluation", "churchroad_evaluation.*"]  # packages to include

@@ -1,0 +1,75 @@
+Metadata-Version: 2.4
+Name: churchroad-evaluation
+Version: 0.0.1
+Summary: Evaluation of the Churchroad synthesis tool
+Author-email: Gus Smith <gushenrysmith@gmail.com>
+Keywords: evaluation,research
+Platform: Linux
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Operating System :: MacOS
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Requires-Python: <4.0,>=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: black==25.1.0
+Requires-Dist: click==8.2.1
+Requires-Dist: cloudpickle==3.1.1
+Requires-Dist: contourpy==1.3.2
+Requires-Dist: cycler==0.12.1
+Requires-Dist: doit==0.36.0
+Requires-Dist: fonttools==4.58.4
+Requires-Dist: importlib_metadata==8.7.0
+Requires-Dist: kiwisolver==1.4.8
+Requires-Dist: matplotlib==3.10.3
+Requires-Dist: mypy_extensions==1.1.0
+Requires-Dist: numpy==2.3.1
+Requires-Dist: packaging==25.0
+Requires-Dist: pandas==2.3.0
+Requires-Dist: pathspec==0.12.1
+Requires-Dist: pillow==11.2.1
+Requires-Dist: pip-review==1.3.0
+Requires-Dist: platformdirs==4.3.8
+Requires-Dist: pyparsing==3.2.3
+Requires-Dist: python-dateutil==2.9.0.post0
+Requires-Dist: pytz==2025.2
+Requires-Dist: PyYAML==6.0.2
+Requires-Dist: six==1.17.0
+Requires-Dist: tzdata==2025.2
+Requires-Dist: zipp==3.23.0
+
+# Churchroad Evaluation
+
+Evaluation for the Churchroad project.
+
+```sh
+git clone <this repo>
+cp .env.template .env
+# Fill in the fields of .env as needed
+
+# Do this every time you're working on the project or running the eval.
+source .env
+
+pip install -r requirements
+
+# Should print a bunch of experiment tasks
+doit list --all
+
+# Run the evaluation. 
+./run-evaluation.sh
+
+# Can also run `doit` directly, though run-evaluation.sh is more tuned for performance.
+doit
+```
+
+## Development Notes
+
+As of June 2025, we use a self-hosted runner that Gus set up on Google Cloud Platform. The setup of that machine was fairly simple but is not documented in this repo anywhere, so I document it here. It is a fairly standard Ubuntu VM on which I installed the GitHub Runners service. I also added a large disk to store Vivado and whatever experimental data we generate.
